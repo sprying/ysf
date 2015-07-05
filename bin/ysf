@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+'use strict'
+
+process.title = 'ysf';
+
+var options = require('../lib/cli').options;
+var tasks = require('../lib/cli').tasks;
+var info = require('../lib/info');
+var resolve = require('resolve').sync,
+    grunt = require(resolve('ysf_grunt', {basedir: __dirname})),
+    path = require('path');
+
+if(options.version){
+    info.version();
+}else if(options.help){
+    info.help();
+}
+if(!grunt.cli.tasks || !grunt.cli.tasks.length){
+    info.help();
+}
+grunt.cli({
+    'gruntfile':path.normalize(path.join(__dirname,'../Gruntfile.js')),
+    'runCwd':process.cwd()
+});
